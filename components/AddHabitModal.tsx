@@ -1,6 +1,7 @@
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface AddHabitModalProps {
   visible: boolean;
@@ -10,6 +11,7 @@ interface AddHabitModalProps {
 
 export default function AddHabitModal({ visible, onClose, onAdd }: AddHabitModalProps) {
   const [habitName, setHabitName] = useState('');
+  const { isDarkMode } = useTheme();
 
   const handleAdd = () => {
     if (habitName.trim()) {
@@ -18,6 +20,83 @@ export default function AddHabitModal({ visible, onClose, onAdd }: AddHabitModal
       onClose();
     }
   };
+
+  const styles = StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalView: {
+      backgroundColor: isDarkMode ? '#2d2d2d' : 'white',
+      borderRadius: 16,
+      padding: 24,
+      width: '90%',
+      maxWidth: 400,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: isDarkMode ? 0.3 : 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    modalHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    modalTitle: {
+      fontSize: 20,
+      fontFamily: 'Inter_700Bold',
+      color: isDarkMode ? '#ffffff' : '#111827',
+    },
+    closeButton: {
+      padding: 4,
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: isDarkMode ? '#404040' : '#e5e7eb',
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      fontFamily: 'Inter_400Regular',
+      color: isDarkMode ? '#ffffff' : '#1f2937',
+      backgroundColor: isDarkMode ? '#404040' : '#f9fafb',
+      marginBottom: 24,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      gap: 12,
+    },
+    button: {
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: 8,
+      minWidth: 100,
+      alignItems: 'center',
+    },
+    cancelButton: {
+      backgroundColor: isDarkMode ? '#404040' : '#f3f4f6',
+    },
+    cancelButtonText: {
+      color: isDarkMode ? '#a3a3a3' : '#4b5563',
+      fontSize: 16,
+      fontFamily: 'Inter_600SemiBold',
+    },
+    addButton: {
+      backgroundColor: '#6366f1',
+    },
+    addButtonText: {
+      color: '#ffffff',
+      fontSize: 16,
+      fontFamily: 'Inter_600SemiBold',
+    },
+  });
 
   return (
     <Modal
@@ -31,7 +110,7 @@ export default function AddHabitModal({ visible, onClose, onAdd }: AddHabitModal
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Add New Habit</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <X size={24} color="#6b7280" />
+              <X size={24} color={isDarkMode ? '#a3a3a3' : '#6b7280'} />
             </TouchableOpacity>
           </View>
 
@@ -41,7 +120,7 @@ export default function AddHabitModal({ visible, onClose, onAdd }: AddHabitModal
             value={habitName}
             onChangeText={setHabitName}
             autoFocus
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor={isDarkMode ? '#737373' : '#9ca3af'}
           />
 
           <View style={styles.buttonContainer}>
@@ -63,80 +142,3 @@ export default function AddHabitModal({ visible, onClose, onAdd }: AddHabitModal
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 24,
-    width: '90%',
-    maxWidth: 400,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontFamily: 'Inter_700Bold',
-    color: '#111827',
-  },
-  closeButton: {
-    padding: 4,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    fontFamily: 'Inter_400Regular',
-    color: '#1f2937',
-    backgroundColor: '#f9fafb',
-    marginBottom: 24,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 12,
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    minWidth: 100,
-    alignItems: 'center',
-  },
-  cancelButton: {
-    backgroundColor: '#f3f4f6',
-  },
-  cancelButtonText: {
-    color: '#4b5563',
-    fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
-  },
-  addButton: {
-    backgroundColor: '#6366f1',
-  },
-  addButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
-  },
-});

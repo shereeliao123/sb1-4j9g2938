@@ -1,18 +1,21 @@
 import { Tabs } from 'expo-router';
 import { Calendar, ChartLine as LineChart, Settings } from 'lucide-react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function TabLayout() {
+  const { isDarkMode } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#ffffff',
+          backgroundColor: isDarkMode ? '#2d2d2d' : '#ffffff',
           borderTopWidth: 1,
-          borderTopColor: '#e5e7eb',
+          borderTopColor: isDarkMode ? '#404040' : '#e5e7eb',
         },
         tabBarActiveTintColor: '#6366f1',
-        tabBarInactiveTintColor: '#6b7280',
+        tabBarInactiveTintColor: isDarkMode ? '#a3a3a3' : '#6b7280',
       }}
     >
       <Tabs.Screen
